@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untuk Kamu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap');
+
+        body {
+            background-color: #050505;
+            background-image: radial-gradient(circle at center, #1a000a 0%, #050505 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .neon-running-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            font-weight: bold;
+            text-align: center;
+            /* Gradient untuk efek cahaya berjalan */
+            background: linear-gradient(90deg, #333 0%, #ff007f 40%, #ff66b2 50%, #ff007f 60%, #333 100%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shine 3s linear infinite;
+            /* Efek pendaran neon */
+            filter: drop-shadow(0 0 15px rgba(255, 0, 127, 0.6));
+            margin-bottom: 2rem;
+            z-index: 10;
+        }
+
+        @keyframes shine {
+            0% { background-position: 200% center; }
+            100% { background-position: -200% center; }
+        }
+
+        .btn-elegant {
+            background: transparent;
+            border: 2px solid #ff007f;
+            color: #ff007f;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.3), inset 0 0 10px rgba(255, 0, 127, 0.2);
+            position: relative;
+            z-index: 10;
+            text-transform: lowercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-elegant:hover {
+            background: #ff007f;
+            color: #fff;
+            box-shadow: 0 0 25px rgba(255, 0, 127, 0.7), inset 0 0 15px rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        /* Transisi menghilang untuk tombol */
+        .fade-out {
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
+            pointer-events: none;
+        }
+
+        .garden {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 40px;
+            width: 100%;
+            height: 300px;
+            pointer-events: none;
+        }
+
+        /* Struktur Mawar */
+        .rose-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            height: 100%;
+            transform-origin: bottom center;
+            opacity: 0; /* Tersembunyi di awal */
+        }
+
+        .stem {
+            width: 6px;
+            background: linear-gradient(to right, #004d00, #008000, #004d00);
+            height: 0; /* Mulai dari 0 untuk animasi tumbuh */
+            position: relative;
+            border-radius: 4px;
+            box-shadow: inset -2px 0 3px rgba(0,0,0,0.4);
+        }
+
+        .leaf {
+            position: absolute;
+            width: 40px;
+            height: 25px;
+            background: linear-gradient(45deg, #006600, #00b300);
+            border-radius: 50% 0 50% 0;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            transform: scale(0); /* Tersembunyi di awal */
+            transform-origin: bottom left;
+        }
+
+        .leaf.right {
+            left: 5px;
+            top: 40%;
+            transform-origin: bottom left;
+        }
+
+        .leaf.left {
+            right: 5px;
+            top: 60%;
+            border-radius: 0 50% 0 50%;
+            transform-origin: bottom right;
+        }
+
+        .flower {
+            position: absolute;
+            bottom: 100%; /* Berada di ujung batang */
+            width: 60px;
+            height: 60px;
+            transform: scale(0); /* Tersembunyi di awal */
+            z-index: 2;
+        }
+
+        .petal {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 100%, #ff0040, #800000);
+            border-radius: 50% 50% 20% 50%;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 0 15px rgba(255,0,64,0.3);
+        }
+
+        .petal:nth-child(1) { transform: rotate(0deg) scale(1); }
+        .petal:nth-child(2) { transform: rotate(60deg) scale(0.9); }
+        .petal:nth-child(3) { transform: rotate(120deg) scale(0.8); }
+        .petal:nth-child(4) { transform: rotate(180deg) scale(0.7); }
+        .petal:nth-child(5) { transform: rotate(240deg) scale(0.6); }
+
+        .flower-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 25px;
+            height: 25px;
+            background: #4d0000;
+            border-radius: 50%;
+            box-shadow: inset 0 0 8px #000;
+        }
+
+        .magic-active .rose-wrapper {
+            opacity: 1;
+        }
+
+        .magic-active .stem {
+            animation: growStem 2s ease-in-out forwards;
+        }
+
+        .magic-active .leaf {
+            animation: growLeaf 1s ease-out forwards;
+        }
+
+        .magic-active .flower {
+            animation: bloomFlower 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes growStem {
+            0% { height: 0; }
+            100% { height: 180px; }
+        }
+
+        @keyframes growLeaf {
+            0% { transform: scale(0) rotate(0deg); }
+            100% { transform: scale(1) rotate(10deg); }
+        }
+
+        @keyframes bloomFlower {
+            0% { transform: translateY(20px) scale(0); }
+            100% { transform: translateY(10px) scale(1); }
+        }
+
+        /* Berayun setelah tumbuh (delay disesuaikan di JS atau CSS) */
+        .magic-active .rose-wrapper.left-rose {
+            animation: swayLeft 4s ease-in-out infinite alternate;
+            animation-delay: 2s; /* Mulai setelah tumbuh */
+        }
+        .magic-active .rose-wrapper.center-rose {
+            animation: swayCenter 4s ease-in-out infinite alternate;
+            animation-delay: 2.2s;
+        }
+        .magic-active .rose-wrapper.right-rose {
+            animation: swayRight 4s ease-in-out infinite alternate;
+            animation-delay: 2.5s;
+        }
+
+        @keyframes swayLeft {
+            0% { transform: rotate(-15deg); }
+            100% { transform: rotate(-5deg); }
+        }
+        @keyframes swayCenter {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(8deg); }
+        }
+        @keyframes swayRight {
+            0% { transform: rotate(15deg); }
+            100% { transform: rotate(5deg); }
+        }
+
+        /* Penempatan dan Rotasi Awal */
+        .left-rose { transform: rotate(-10deg); margin-bottom: -10px; }
+        .center-rose { transform: rotate(0deg); z-index: 3; }
+        .right-rose { transform: rotate(10deg); margin-bottom: -20px; }
+
+        /* Delay Tumbuh berbeda untuk tiap mawar */
+        .left-rose .stem { animation-delay: 0.5s; }
+        .left-rose .leaf { animation-delay: 1.5s; }
+        .left-rose .flower { animation-delay: 1.5s; }
+
+        .center-rose .stem { animation-delay: 0s; height: 220px; } /* Mawar tengah lebih tinggi */
+        .center-rose .leaf { animation-delay: 1s; }
+        .center-rose .flower { animation-delay: 1s; }
+
+        .right-rose .stem { animation-delay: 0.8s; }
+        .right-rose .leaf { animation-delay: 1.8s; }
+        .right-rose .flower { animation-delay: 1.8s; }
+
+        .final-text {
+            position: absolute;
+            top: 25%;
+            width: 100%;
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            font-size: 5rem;
+            color: #fff;
+            opacity: 0;
+            transform: translateY(-20px);
+            text-shadow: 0 0 10px #ff007f, 0 0 20px #ff007f, 0 0 40px #ff007f, 0 0 80px #ff007f;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        .magic-active .final-text {
+            animation: fadeInNeon 2s ease-out forwards;
+            animation-delay: 4.5s; /* Muncul setelah mawar selesai tumbuh dan mulai berayun */
+        }
+
+        @keyframes fadeInNeon {
+            0% { opacity: 0; transform: translateY(-20px) scale(0.9); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Responsif */
+        @media (max-width: 600px) {
+            .neon-running-text { font-size: 3rem; }
+            .final-text { font-size: 3.5rem; top: 15%; }
+            .garden { gap: 20px; }
+            .flower { width: 50px; height: 50px; }
+            @keyframes growStem { 0% { height: 0; } 100% { height: 140px; } }
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="neon-running-text" id="mainText">hallo sayang,
+        aku buat bunga ini buat kamu 
+    </h1>
+    
+    <button class="btn-elegant" id="magicButton" onclick="startMagic()">
+        coba klik di bawah ini
+    </button>
+
+    <div class="garden" id="garden">
+        
+        <!-- Mawar Kiri -->
+        <div class="rose-wrapper left-rose">
+            <div class="flower">
+                <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+                <div class="petal"></div><div class="petal"></div>
+                <div class="flower-center"></div>
+            </div>
+            <div class="stem">
+                <div class="leaf right"></div>
+                <div class="leaf left" style="top: 30%"></div>
+            </div>
+        </div>
+
+        <!-- Mawar Tengah -->
+        <div class="rose-wrapper center-rose">
+            <div class="flower">
+                <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+                <div class="petal"></div><div class="petal"></div>
+                <div class="flower-center"></div>
+            </div>
+            <div class="stem" style="height: 0; animation-name: growStemCenter;">
+                <div class="leaf left"></div>
+                <div class="leaf right" style="top: 20%"></div>
+            </div>
+        </div>
+
+        <!-- Mawar Kanan -->
+        <div class="rose-wrapper right-rose">
+            <div class="flower">
+                <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+                <div class="petal"></div><div class="petal"></div>
+                <div class="flower-center"></div>
+            </div>
+            <div class="stem">
+                <div class="leaf right"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="final-text">for u suci maysela anjelia❤️</div>
+
+    <script>
+        // Memperbaiki animasi batang tengah agar lebih tinggi
+        const styleSheet = document.createElement("style");
+        styleSheet.type = "text/css";
+        styleSheet.innerText = `
+            @keyframes growStemCenter {
+                0% { height: 0; }
+                100% { height: 230px; }
+            }
+            @media (max-width: 600px) {
+                @keyframes growStemCenter { 0% { height: 0; } 100% { height: 180px; } }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+
+        function startMagic() {
+            const btn = document.getElementById('magicButton');
+            const mainText = document.getElementById('mainText');
+            
+            // 1. Menghilangkan Tombol
+            btn.classList.add('fade-out');
+            
+            // Opsional: Buat teks "hallo sayang" perlahan memudar ke atas untuk memberi ruang
+            mainText.style.transition = "all 2s ease";
+            mainText.style.opacity = "0";
+            mainText.style.transform = "translateY(-50px)";
+
+            // 2. Memulai tumbuhnya mawar dan animasi lainnya
+            // Menambahkan kelas pada body yang akan memicu semua animasi CSS
+            setTimeout(() => {
+                document.body.classList.add('magic-active');
+            }, 300); // Sedikit delay agar tombol hilang terlebih dahulu
+        }
+    </script>
+</body>
+</html>
